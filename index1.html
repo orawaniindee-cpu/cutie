@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do You Love Me?</title>
+    <style>
+        /* ส่วนของการตกแต่ง (CSS) */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fce4ec; /* สีพื้นหลังชมพูอ่อน */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .containerz {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        /* ซ่อนหน้าผลลัพธ์ไว้ก่อน */
+        .result-container {
+            display: none;
+        }
+
+        video, img {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #d81b60;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative; /* เพื่อให้ปุ่ม No ขยับแบบสัมพัทธ์ได้ถ้าต้องการ */
+        }
+
+        .btn {
+            font-size: 18px;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .yes-btn {
+            background-color: #e91e63;
+            color: white;
+        }
+
+        .yes-btn:hover {
+            background-color: #c2185b;
+            transform: scale(1.1);
+        }
+
+        .no-btn {
+            background-color: #f0f0f0;
+            color: #333;
+            position: relative; /* ใช้ absolute ถ้าอยากให้บินว่อนทั่วจอ */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-container containerz">
+        <img class="local-gif" src="https://media1.tenor.com/m/lWs6bGogKC0AAAAd/puppy-eyes-golden-retriever.gif" alt="Cute Bear">
+        
+        <h2 class="question">Do you love me?</h2>
+        
+        <div class="button-container">
+            <button class="yes-btn btn js-yes-btn">Yes</button>
+            <button class="no-btn btn js-no-btn">No</button>
+        </div>
+    </div>
+
+    <div class="result-container containerz">
+        <img class="gif-result" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3VwNzI5eXk5N282Y205a2VweW82bHV4ZHl6Y2V6b2Z4Y3V6Y2V6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZF9naSZjdD1z/T86i6yDyOYz7J6dPhf/giphy.gif" alt="Happy Bear">
+        <h2>I knew it! 💗</h2>
+    </div>
+
+    <script>
+        /* ส่วนของการทำงาน (JavaScript) */
+        const questionContainer = document.querySelector('.question-container');
+        const resultContainer = document.querySelector('.result-container');
+        const yesBtn = document.querySelector('.js-yes-btn');
+        const noBtn = document.querySelector('.js-no-btn');
+
+        // เมื่อกดปุ่ม Yes
+        yesBtn.addEventListener('click', () => {
+            questionContainer.style.display = 'none'; // ซ่อนคำถาม
+            resultContainer.style.display = 'block';  // โชว์คำตอบ
+        });
+
+        // เมื่อเอาเมาส์ไปชี้ปุ่ม No (ให้ปุ่มหนี)
+        noBtn.addEventListener('mouseover', () => {
+            const containerRect = questionContainer.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+
+            // คำนวณตำแหน่งใหม่แบบสุ่ม
+            const i = Math.floor(Math.random() * (containerRect.width - btnRect.width)) + 1;
+            const j = Math.floor(Math.random() * (containerRect.height - btnRect.height)) + 1;
+
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = i + 'px';
+            noBtn.style.top = j + 'px';
+        });
+        
+        // สำหรับมือถือ (ถ้าแตะแล้วให้หนีเหมือนกัน)
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // กันไม่ให้กดได้จริง
+            const containerRect = questionContainer.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            const i = Math.floor(Math.random() * (containerRect.width - btnRect.width)) + 1;
+            const j = Math.floor(Math.random() * (containerRect.height - btnRect.height)) + 1;
+
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = i + 'px';
+            noBtn.style.top = j + 'px';
+        });
+    </script>
+</body>
+</html>
